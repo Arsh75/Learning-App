@@ -1,26 +1,24 @@
 :root {
-  --primary: #4f46e5;
-  --primary-hover: #4338ca;
-  --bg-kids: #f0f9ff;
-  --card-bg: #ffffff;
-  --text-main: #1e293b;
-  --text-muted: #64748b;
-  
-  /* Playful Colors */
-  --kid-blue: #38bdf8;
-  --kid-green: #4ade80;
-  --kid-orange: #fb923c;
-  --kid-purple: #c084fc;
-  --kid-pink: #f472b6;
-  --kid-yellow: #facc15;
-  
-  --radius-lg: 1.5rem;
-  --radius-md: 1rem;
-  --shadow-playful: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-  --shadow-button: 0 4px 0px 0px rgba(0, 0, 0, 0.1);
-}
+  /* Toy Box Maximalism Palette */
+  --kid-blue: #3B9EFF;
+  --kid-green: #3ECF4C;
+  --kid-orange: #FF8C42;
+  --kid-purple: #9B59F5;
+  --kid-pink: #FF6B9D;
+  --kid-yellow: #FFD23F;
+  --kid-red: #FF4757;
+  --bg-light: #EEF4FF;
+  --white: #FFFFFF;
+  --text-dark: #1A1A2E;
+  --text-muted: #6B7A99;
 
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap');
+  /* Shadows */
+  --shadow-chunky: 0 10px 0 rgba(0, 0, 0, 0.05);
+  --shadow-button: 0 6px 0;
+  --radius-xl: 2.5rem;
+  --radius-lg: 1.5rem;
+  --transition-playful: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
 
 * {
   margin: 0;
@@ -29,28 +27,47 @@
 }
 
 body {
-  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  background-color: var(--bg-kids);
-  color: var(--text-main);
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg-light);
+  color: var(--text-dark);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
   overflow-x: hidden;
 }
 
-#root {
-  min-height: 100vh;
-}
-
-h1, h2, h3 {
+h1,
+h2,
+h3,
+h4,
+.heading-font {
+  font-family: 'Baloo 2', cursive;
   font-weight: 800;
 }
 
-button {
-  cursor: pointer;
-  border: none;
-  font-family: inherit;
-  font-weight: 600;
-  transition: transform 0.1s;
+.mesh-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-color: var(--bg-light);
+  background-image:
+    radial-gradient(at 0% 0%, hsla(210, 100%, 93%, 1) 0, transparent 50%),
+    radial-gradient(at 50% 0%, hsla(270, 100%, 93%, 1) 0, transparent 50%),
+    radial-gradient(at 100% 0%, hsla(330, 100%, 93%, 1) 0, transparent 50%);
+  animation: mesh-move 20s ease infinite alternate;
+}
+
+@keyframes mesh-move {
+  0% {
+    background-position: 0% 0%;
+  }
+
+  100% {
+    background-position: 100% 100%;
+  }
 }
 
 button:active {
@@ -75,7 +92,42 @@ button:active {
 }
 
 @keyframes floating {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes rainbow-shimmer {
+  0% {
+    border-color: var(--kid-blue);
+  }
+
+  25% {
+    border-color: var(--kid-pink);
+  }
+
+  50% {
+    border-color: var(--kid-yellow);
+  }
+
+  75% {
+    border-color: var(--kid-purple);
+  }
+
+  100% {
+    border-color: var(--kid-blue);
+  }
+}
+
+.rainbow-shimmer {
+  animation: rainbow-shimmer 3s linear infinite;
+  border-width: 6px !important;
 }

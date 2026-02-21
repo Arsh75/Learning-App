@@ -4,71 +4,68 @@ import { motion } from 'framer-motion';
 const InteractionCard = ({
     title,
     icon: Icon,
+    emoji,
     description,
-    color = 'blue',
+    color = 'var(--kid-blue)',
     onClick,
-    delay = 0
+    delay = 0,
+    disabled = false
 }) => {
-    const colors = {
-        blue: { bg: '#e0f2fe', border: '#38bdf8', text: '#0369a1' },
-        green: { bg: '#f0fdf4', border: '#4ade80', text: '#15803d' },
-        orange: { bg: '#fff7ed', border: '#fb923c', text: '#c2410c' },
-        purple: { bg: '#faf5ff', border: '#c084fc', text: '#7e22ce' },
-        pink: { bg: '#fdf2f8', border: '#f472b6', text: '#be185d' },
-        yellow: { bg: '#fefce8', border: '#facc15', text: '#a16207' },
-    };
-
-    const theme = colors[color] || colors.blue;
-
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay }}
-            whileHover={{
+            transition={{ delay, type: 'spring' }}
+            whileHover={!disabled ? {
                 scale: 1.05,
-                rotate: [0, -1, 1, -1, 0],
-                transition: { duration: 0.3 }
-            }}
-            onClick={onClick}
+                y: -10,
+                rotate: [0, -1, 1, 0],
+                transition: { duration: 0.2 }
+            } : {}}
+            onClick={!disabled ? onClick : undefined}
             style={{
-                backgroundColor: theme.bg,
-                border: `4px solid ${theme.border}`,
-                borderRadius: '2rem',
-                padding: '2rem',
-                cursor: 'pointer',
+                backgroundColor: 'var(--white)',
+                border: `4px solid ${color}`,
+                borderRadius: '2.5rem',
+                padding: '2.5rem',
+                cursor: disabled ? 'not-allowed' : 'pointer',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 textAlign: 'center',
-                boxShadow: `0 10px 0 ${theme.border}33`,
+                boxShadow: `0 12px 0 ${color}22`,
                 position: 'relative',
-                overflow: 'hidden'
+                overflow: 'hidden',
+                opacity: disabled ? 0.7 : 1,
             }}
         >
             <div
                 style={{
-                    backgroundColor: 'white',
-                    padding: '1.2rem',
-                    borderRadius: '1.5rem',
-                    marginBottom: '1rem',
-                    boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)'
+                    backgroundColor: `${color}11`,
+                    padding: '1.5rem',
+                    borderRadius: '2rem',
+                    marginBottom: '1.5rem',
+                    fontSize: '3rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
                 }}
             >
-                {Icon && <Icon size={48} color={theme.border} strokeWidth={2.5} />}
+                {Icon ? <Icon size={64} color={color} strokeWidth={2.5} /> : emoji}
             </div>
-            <h3 style={{ color: theme.text, fontSize: '1.5rem', marginBottom: '0.5rem' }}>{title}</h3>
-            <p style={{ color: theme.text, opacity: 0.8, fontSize: '1rem' }}>{description}</p>
+            <h3 style={{ color: 'var(--text-dark)', fontSize: '1.8rem', marginBottom: '0.8rem' }}>{title}</h3>
+            <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', fontWeight: '600' }}>{description}</p>
 
-            {/* Decorative circle */}
+            {/* Decorative Shimmer/Circle */}
             <div style={{
                 position: 'absolute',
-                top: '-20%',
+                top: '-10%',
                 right: '-10%',
-                width: '100px',
-                height: '100px',
-                background: `${theme.border}22`,
-                borderRadius: '50%'
+                width: '120px',
+                height: '120px',
+                background: `${color}11`,
+                borderRadius: '50%',
+                pointerEvents: 'none'
             }} />
         </motion.div>
     );

@@ -1,13 +1,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const Button = ({ 
-  children, 
-  onClick, 
-  variant = 'primary', 
+const Button = ({
+  children,
+  onClick,
   color = 'blue',
+  size = 'md',
   className = '',
-  size = 'md'
+  disabled = false
 }) => {
   const colors = {
     blue: 'var(--kid-blue)',
@@ -16,35 +16,39 @@ const Button = ({
     purple: 'var(--kid-purple)',
     pink: 'var(--kid-pink)',
     yellow: 'var(--kid-yellow)',
+    red: 'var(--kid-red)',
   };
 
   const selectedColor = colors[color] || colors.blue;
 
   const sizeStyles = {
-    sm: { padding: '0.5rem 1rem', fontSize: '0.9rem' },
-    md: { padding: '0.8rem 2rem', fontSize: '1.1rem' },
-    lg: { padding: '1.2rem 3rem', fontSize: '1.4rem' },
-  };
-
-  const baseStyles = {
-    backgroundColor: variant === 'primary' ? selectedColor : 'transparent',
-    color: variant === 'primary' ? 'white' : selectedColor,
-    border: variant === 'outline' ? `3px solid ${selectedColor}` : 'none',
-    boxShadow: variant === 'primary' ? `0 6px 0 ${selectedColor}99` : 'none',
-    borderRadius: '1rem',
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: '0.5rem',
-    ...sizeStyles[size]
+    sm: { padding: '0.6rem 1.2rem', fontSize: '1rem' },
+    md: { padding: '1rem 2.5rem', fontSize: '1.2rem' },
+    lg: { padding: '1.5rem 4rem', fontSize: '1.5rem' },
   };
 
   return (
     <motion.button
-      whileHover={{ scale: 1.05, translateY: -2 }}
-      whileTap={{ scale: 0.95, translateY: 2 }}
-      style={baseStyles}
+      whileHover={!disabled ? { scale: 1.05, translateY: -4 } : {}}
+      whileTap={!disabled ? { scale: 0.95, translateY: 4 } : {}}
       onClick={onClick}
-      className={`kid-button ${className}`}
+      disabled={disabled}
+      className={`heading-font ${className}`}
+      style={{
+        backgroundColor: selectedColor,
+        color: 'white',
+        borderRadius: '2rem',
+        border: 'none',
+        boxShadow: `0 8px 0 ${selectedColor}cc`,
+        cursor: disabled ? 'not-allowed' : 'pointer',
+        opacity: disabled ? 0.6 : 1,
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '0.5rem',
+        ...sizeStyles[size],
+        transition: 'box-shadow 0.1s, transform 0.1s',
+      }}
     >
       {children}
     </motion.button>
