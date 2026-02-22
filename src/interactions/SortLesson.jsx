@@ -1,29 +1,47 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Button from '../components/Button';
+import { useSound } from '../hooks/useSound';
 
 const SortLesson = ({ content, onFinish }) => {
+    const { playSound } = useSound();
     const { items, categories } = content.content; // items: [{name: '🍎', cat: 'Fruit'}], categories: ['Fruit', 'Veggie']
     const [currentIdx, setCurrentIdx] = useState(0);
     const [results, setResults] = useState([]); // {item: '🍎', correct: true}
+    const [isProcessing, setIsProcessing] = useState(false);
 
     const currentItem = items[currentIdx];
 
     const handleSort = (category) => {
+        if (isProcessing) return;
+        setIsProcessing(true);
+
         const isCorrect = currentItem.cat === category;
-        setResults([...results, { item: currentItem.name, correct: isCorrect }]);
+        if (isCorrect) {
+            playSound('correct');
+        } else {
+            playSound('wrong');
+        }
+        const newResults = [...results, { item: currentItem.name, correct: isCorrect }];
+        setResults(newResults);
 
         if (currentIdx === items.length - 1) {
-            const allCorrect = [...results, { item: currentItem.name, correct: isCorrect }].every(r => r.correct);
-            setTimeout(() => onFinish(allCorrect), 1000);
+            const allCorrect = newResults.every(r => r.correct);
+            setTimeout(() => {
+                onFinish(allCorrect);
+                setIsProcessing(false);
+            }, 1000);
         } else {
-            setCurrentIdx(currentIdx + 1);
+            setTimeout(() => {
+                setCurrentIdx(currentIdx + 1);
+                setIsProcessing(false);
+            }, 300);
         }
     };
 
     return (
-        <div style={{ textAlign: 'center' }}>
-            <p style={{ marginBottom: '2rem', fontSize: '1.2rem', fontWeight: '600' }}>
+        <div style={{ textAlign: 'center', width: '100%' }}>
+            <p style={{ marginBottom: '1.5rem', fontSize: 'clamp(1rem, 3vw, 1.2rem)', fontWeight: '600' }}>
                 Where does this belong? 🤔
             </p>
 
@@ -33,29 +51,37 @@ const SortLesson = ({ content, onFinish }) => {
                     initial={{ scale: 0, rotate: -20 }}
                     animate={{ scale: 1, rotate: 0 }}
                     exit={{ scale: 0, x: 100, opacity: 0 }}
-                    style={{ fontSize: '6rem', marginBottom: '4rem' }}
+                    style={{ fontSize: 'clamp(3rem, 15vw, 6rem)', marginBottom: '2.5rem' }}
                 >
                     {currentItem.name}
                 </motion.div>
             </AnimatePresence>
 
-            <div style={{ display: 'flex', gap: '2rem', justifyContent: 'center' }}>
+            <div style={{
+                display: 'flex',
+                gap: 'clamp(1rem, 4vw, 2rem)',
+                justifyContent: 'center',
+                flexWrap: 'wrap',
+                padding: '0 1rem'
+            }}>
                 {categories.map(cat => (
                     <motion.div
                         key={cat}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
+                        whileHover={!isProcessing ? { scale: 1.05 } : {}}
+                        whileTap={!isProcessing ? { scale: 0.95 } : {}}
                         onClick={() => handleSort(cat)}
                         style={{
-                            padding: '2rem',
+                            padding: 'clamp(1rem, 5vw, 2rem)',
                             background: 'white',
                             border: '4px dashed var(--kid-blue)',
-                            borderRadius: '2rem',
-                            cursor: 'pointer',
-                            minWidth: '150px'
+                            borderRadius: 'min(2rem, 5vw)',
+                            cursor: isProcessing ? 'default' : 'pointer',
+                            minWidth: 'clamp(120px, 30vw, 180px)',
+                            flex: '1 1 120px',
+                            maxWidth: '250px'
                         }}
                     >
-                        <h3 className="heading-font" style={{ color: 'var(--kid-blue)' }}>{cat}</h3>
+                        <h3 className="heading-font" style={{ color: 'var(--kid-blue)', fontSize: 'clamp(1.1rem, 4vw, 1.5rem)', margin: 0 }}>{cat}</h3>
                     </motion.div>
                 ))}
             </div>

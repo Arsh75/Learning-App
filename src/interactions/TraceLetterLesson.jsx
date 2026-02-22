@@ -1,8 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Button from '../components/Button';
+import { useSound } from '../hooks/useSound';
 
 const TraceLetterLesson = ({ content, onFinish }) => {
+    const { playSound } = useSound();
     const canvasRef = useRef(null);
     const [isDrawing, setIsDrawing] = useState(false);
     const [hasStarted, setHasStarted] = useState(false);
@@ -53,6 +55,7 @@ const TraceLetterLesson = ({ content, onFinish }) => {
     };
 
     const clear = () => {
+        playSound('click');
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -62,6 +65,7 @@ const TraceLetterLesson = ({ content, onFinish }) => {
     const handleSubmit = () => {
         // Simplified: just check if they drew anything. 
         // Real letter recognition would need a library.
+        if (hasStarted) playSound('correct');
         onFinish(hasStarted);
     };
 

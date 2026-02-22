@@ -10,12 +10,19 @@ const GradeSelect = ({ onSelect, onBack }) => {
 
     return (
         <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem' }}>
-                <Button variant="outline" size="sm" onClick={onBack}>
-                    <ChevronLeft /> Back
+            <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: '2rem',
+                flexWrap: 'wrap',
+                gap: '1rem'
+            }}>
+                <Button variant="outline" size="sm" onClick={onBack} style={{ padding: '0.6rem 1rem' }}>
+                    <ChevronLeft size={20} /> Back
                 </Button>
-                <h2 style={{ fontSize: '2.5rem', color: 'var(--text-dark)' }}>Select Your Grade 🎒</h2>
-                <Button color="pink" size="sm" onClick={() => setShowAboutMe(true)}>
+                <h2 style={{ fontSize: 'clamp(1.5rem, 6vw, 2.5rem)', color: 'var(--text-dark)', margin: 0 }}>Select Your Grade 🎒</h2>
+                <Button color="pink" size="sm" onClick={() => setShowAboutMe(true)} style={{ padding: '0.6rem 1rem' }}>
                     About Me 🪪
                 </Button>
             </div>

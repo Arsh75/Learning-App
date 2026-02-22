@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Button from '../components/Button';
 import { Star } from 'lucide-react';
+import { useSound } from '../hooks/useSound';
 
 const ScenarioQuizLesson = ({ content, onFinish, isMinified = false }) => {
+    const { playSound } = useSound();
     const [qIdx, setQIdx] = useState(0);
     const [selected, setSelected] = useState(null);
     const [score, setScore] = useState(0);
@@ -18,7 +20,12 @@ const ScenarioQuizLesson = ({ content, onFinish, isMinified = false }) => {
         setSelected(idx);
 
         const correct = idx === currentQ.correct;
-        if (correct) setScore(s => s + 1);
+        if (correct) {
+            setScore(s => s + 1);
+            playSound('correct');
+        } else {
+            playSound('wrong');
+        }
 
         if (isMinified) {
             setTimeout(() => {
@@ -28,7 +35,7 @@ const ScenarioQuizLesson = ({ content, onFinish, isMinified = false }) => {
                 } else {
                     onFinish((correct ? score + 1 : score) === questions.length);
                 }
-            }, 1500);
+            }, 1000);
         }
     };
 
@@ -47,23 +54,24 @@ const ScenarioQuizLesson = ({ content, onFinish, isMinified = false }) => {
                 <motion.div
                     animate={{ scale: [1, 1.1, 1] }}
                     transition={{ duration: 2, repeat: Infinity }}
-                    style={{ fontSize: '6rem', marginBottom: '2rem' }}
+                    style={{ fontSize: 'clamp(3rem, 15vw, 6rem)', marginBottom: '1.5rem' }}
                 >
                     {currentQ.scenario_emoji || '🎭'}
                 </motion.div>
             )}
 
-            <p style={{ fontSize: isMinified ? '1.2rem' : '1.5rem', marginBottom: '2rem', fontWeight: '600' }}>
+            <p style={{ fontSize: isMinified ? '1.1rem' : 'clamp(1.2rem, 4vw, 1.5rem)', marginBottom: '2rem', fontWeight: '600', padding: '0 1rem' }}>
                 {currentQ.instruction}
             </p>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxWidth: '400px', margin: '0 auto' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', maxWidth: '400px', margin: '0 auto', padding: '0 1rem' }}>
                 {currentQ.options.map((option, idx) => (
                     <Button
                         key={`${qIdx}-${idx}`}
                         color={selected === idx ? (isCorrect ? 'green' : 'red') : 'purple'}
                         onClick={() => handleAnswer(idx)}
                         disabled={selected !== null}
+                        style={{ width: '100%', fontSize: '1.2rem' }}
                     >
                         {option}
                     </Button>

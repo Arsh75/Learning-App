@@ -6,11 +6,17 @@ import { ChevronLeft } from 'lucide-react';
 const SubjectSelect = ({ grade, onSelect, onBack }) => {
     return (
         <div>
-            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '3rem', gap: '1.5rem' }}>
-                <Button variant="outline" size="sm" onClick={onBack}>
-                    <ChevronLeft /> Back
+            <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                marginBottom: '2rem',
+                gap: '1rem',
+                flexWrap: 'wrap'
+            }}>
+                <Button variant="outline" size="sm" onClick={onBack} style={{ padding: '0.6rem 1rem' }}>
+                    <ChevronLeft size={20} /> Back
                 </Button>
-                <h2 style={{ fontSize: '2.5rem', color: 'var(--text-dark)' }}>
+                <h2 style={{ fontSize: 'clamp(1.5rem, 6vw, 2.5rem)', color: 'var(--text-dark)', margin: 0 }}>
                     {grade.emoji} {grade.name} Subjects
                 </h2>
             </div>

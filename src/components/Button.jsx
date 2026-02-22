@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useSound } from '../hooks/useSound';
 
 const Button = ({
   children,
@@ -7,8 +8,10 @@ const Button = ({
   color = 'blue',
   size = 'md',
   className = '',
-  disabled = false
+  disabled = false,
+  style = {}
 }) => {
+  const { playSound } = useSound();
   const colors = {
     blue: 'var(--kid-blue)',
     green: 'var(--kid-green)',
@@ -27,11 +30,18 @@ const Button = ({
     lg: { padding: '1.5rem 4rem', fontSize: '1.5rem' },
   };
 
+  const handleClick = (e) => {
+    if (!disabled) {
+      playSound('click');
+      if (onClick) onClick(e);
+    }
+  };
+
   return (
     <motion.button
       whileHover={!disabled ? { scale: 1.05, translateY: -4 } : {}}
       whileTap={!disabled ? { scale: 0.95, translateY: 4 } : {}}
-      onClick={onClick}
+      onClick={handleClick}
       disabled={disabled}
       className={`heading-font ${className}`}
       style={{

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Button from '../components/Button';
+import { useSound } from '../hooks/useSound';
 
 const NumberLineLesson = ({ content, onFinish }) => {
+    const { playSound } = useSound();
     const { start, jump, instruction, target } = content.content || content;
     const [currentPos, setCurrentPos] = useState(content.content?.start || 4);
     const [jumpsLeft, setJumpsLeft] = useState(content.content?.jump || 3);
@@ -12,6 +14,7 @@ const NumberLineLesson = ({ content, onFinish }) => {
 
     const handleFrogTap = () => {
         if (jumpsLeft > 0) {
+            playSound('click');
             setCurrentPos(prev => prev + 1);
             setJumpsLeft(prev => prev - 1);
         }
@@ -21,6 +24,11 @@ const NumberLineLesson = ({ content, onFinish }) => {
         if (jumpsLeft > 0) return;
         setSelected(num);
         const isCorrect = num === (content.content?.target || 7);
+        if (isCorrect) {
+            playSound('correct');
+        } else {
+            playSound('wrong');
+        }
         setTimeout(() => onFinish(isCorrect), 1500);
     };
 

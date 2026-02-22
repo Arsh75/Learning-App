@@ -80,6 +80,36 @@ button:active {
   padding: 2rem;
 }
 
+/* Responsiveness */
+@media (max-width: 768px) {
+  :root {
+    --radius-xl: 1.5rem;
+    --radius-lg: 1rem;
+  }
+
+  .container {
+    padding: 1rem;
+  }
+
+  h1 { font-size: 2rem !important; }
+  h2 { font-size: 1.75rem !important; }
+  h3 { font-size: 1.5rem !important; }
+
+  body {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0.75rem;
+  }
+
+  h1 { font-size: 1.75rem !important; }
+  h2 { font-size: 1.5rem !important; }
+  h3 { font-size: 1.25rem !important; }
+}
+
 /* Custom Utilities */
 .glass {
   background: rgba(255, 255, 255, 0.7);

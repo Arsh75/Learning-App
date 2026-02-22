@@ -24,15 +24,17 @@ const Header = ({ title = "Noorilm", onLogoClick }) => {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            padding: '1.5rem 2rem',
-            marginBottom: '2rem'
+            padding: '1rem 5%',
+            marginBottom: '1rem',
+            flexWrap: 'wrap',
+            gap: '1rem'
         }}>
             <div
                 onClick={onLogoClick}
-                style={{ display: 'flex', alignItems: 'center', gap: '1rem', cursor: 'pointer' }}
+                style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', cursor: 'pointer' }}
             >
                 <MascotRocket onClick={handlePointerDown} />
-                <h1 style={{ fontSize: '2.5rem', color: 'var(--kid-blue)', margin: 0 }}>{title}</h1>
+                <h1 style={{ fontSize: 'clamp(1.5rem, 5vw, 2.5rem)', color: 'var(--kid-blue)', margin: 0 }}>{title}</h1>
             </div>
 
             <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>

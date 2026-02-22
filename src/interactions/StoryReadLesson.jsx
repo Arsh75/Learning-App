@@ -2,14 +2,17 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Button from '../components/Button';
 import QuizLesson from './QuizLesson';
+import { useSound } from '../hooks/useSound';
 
 const StoryReadLesson = ({ content, onFinish }) => {
+    const { playSound } = useSound();
     const { panels, questions } = content.content;
     const [panelIdx, setPanelIdx] = useState(0);
     const [quizIdx, setQuizIdx] = useState(-1); // -1 means showing story panels
     const [correctAnswers, setCorrectAnswers] = useState(0);
 
     const handleNextPanel = () => {
+        playSound('click');
         if (panelIdx < panels.length - 1) {
             setPanelIdx(panelIdx + 1);
         } else {

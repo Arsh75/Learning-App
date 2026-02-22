@@ -82,10 +82,17 @@ const LessonSession = ({ level, onComplete, onExit }) => {
     };
 
     return (
-        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                <h3 className="heading-font">{level.name}</h3>
-                <Button variant="outline" size="sm" color="red" onClick={onExit}>Exit</Button>
+        <div style={{ maxWidth: '900px', margin: '0 auto', width: '100%' }}>
+            <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: '1rem',
+                flexWrap: 'wrap',
+                gap: '0.5rem'
+            }}>
+                <h3 className="heading-font" style={{ fontSize: 'clamp(1rem, 4vw, 1.5rem)', margin: 0 }}>{level.name}</h3>
+                <Button variant="outline" size="sm" color="red" onClick={onExit} style={{ padding: '0.5rem 1rem' }}>Exit</Button>
             </div>
 
             <ProgressBar current={currentIdx + 1} total={level.lessons.length} />
@@ -98,19 +105,23 @@ const LessonSession = ({ level, onComplete, onExit }) => {
                     exit={{ opacity: 0, y: -30 }}
                     style={{
                         background: 'white',
-                        padding: '3rem',
-                        borderRadius: '3rem',
+                        padding: 'clamp(1.5rem, 5vw, 3rem)',
+                        borderRadius: 'min(3rem, 8vw)',
                         boxShadow: 'var(--shadow-chunky)',
-                        minHeight: '400px',
+                        minHeight: 'min(400px, 60vh)',
                         display: 'flex',
                         flexDirection: 'column',
-                        justifyContent: 'center'
+                        justifyContent: 'center',
+                        marginTop: '1rem',
+                        border: '2px solid rgba(0,0,0,0.05)'
                     }}
                 >
-                    <h2 className="heading-font" style={{ fontSize: '2.5rem', marginBottom: '2rem', textAlign: 'center' }}>
+                    <h2 className="heading-font" style={{ fontSize: 'clamp(1.5rem, 6vw, 2.5rem)', marginBottom: '1.5rem', textAlign: 'center', lineHeight: 1.2 }}>
                         {currentLesson.title}
                     </h2>
-                    {renderInteraction()}
+                    <div style={{ width: '100%' }}>
+                        {renderInteraction()}
+                    </div>
                 </motion.div>
             </AnimatePresence>
         </div>

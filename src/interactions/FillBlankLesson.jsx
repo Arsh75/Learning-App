@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Button from '../components/Button';
+import { useSound } from '../hooks/useSound';
 
 const FillBlankLesson = ({ content, onFinish }) => {
+    const { playSound } = useSound();
     const [qIdx, setQIdx] = useState(0);
     const [selected, setSelected] = useState(null);
     const [score, setScore] = useState(0);
@@ -15,7 +17,12 @@ const FillBlankLesson = ({ content, onFinish }) => {
         if (selected !== null) return;
         setSelected(val);
         const correct = val === currentQ.answer;
-        if (correct) setScore(s => s + 1);
+        if (correct) {
+            setScore(s => s + 1);
+            playSound('correct');
+        } else {
+            playSound('wrong');
+        }
 
         setTimeout(() => {
             if (qIdx < questions.length - 1) {
@@ -24,7 +31,7 @@ const FillBlankLesson = ({ content, onFinish }) => {
             } else {
                 onFinish((correct ? score + 1 : score) === questions.length);
             }
-        }, 1500);
+        }, 1000);
     };
 
     return (
@@ -36,20 +43,22 @@ const FillBlankLesson = ({ content, onFinish }) => {
             )}
 
             <div style={{
-                fontSize: '2.5rem',
+                fontSize: 'clamp(1.5rem, 5vw, 2.5rem)',
                 fontWeight: '700',
                 marginBottom: '4rem',
-                padding: '2rem',
+                padding: '1.5rem',
                 background: '#f8fafc',
-                borderRadius: '2rem'
+                borderRadius: '2rem',
+                lineHeight: '1.4'
             }}>
                 {parts[0]}
                 <span style={{
                     borderBottom: '4px solid var(--kid-blue)',
-                    minWidth: '150px',
+                    minWidth: '100px',
                     display: 'inline-block',
                     color: selected === currentQ.answer ? 'var(--kid-green)' : (selected ? 'var(--kid-red)' : 'transparent'),
-                    padding: '0 10px'
+                    padding: '0 10px',
+                    margin: '0 5px'
                 }}>
                     {selected || '????'}
                 </span>

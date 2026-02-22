@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { motion, Reorder } from 'framer-motion';
 import Button from '../components/Button';
 import { GripVertical } from 'lucide-react';
+import { useSound } from '../hooks/useSound';
 
 const DragOrderLesson = ({ content, onFinish }) => {
+    const { playSound } = useSound();
     const { items, correctOrder } = content.content; // items: ['Step 3', 'Step 1', 'Step 2'], correctOrder: ['Step 1', 'Step 2', 'Step 3']
     const [currentItems, setCurrentItems] = useState(items);
     const [submitted, setSubmitted] = useState(false);
@@ -11,6 +13,11 @@ const DragOrderLesson = ({ content, onFinish }) => {
     const checkOrder = () => {
         const isCorrect = JSON.stringify(currentItems) === JSON.stringify(correctOrder);
         setSubmitted(true);
+        if (isCorrect) {
+            playSound('correct');
+        } else {
+            playSound('wrong');
+        }
         setTimeout(() => onFinish(isCorrect), 1500);
     };
 

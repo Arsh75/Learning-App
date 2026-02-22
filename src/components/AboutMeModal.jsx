@@ -26,8 +26,8 @@ const AboutMeModal = ({ isOpen, onClose }) => {
                 animate={{ scale: 1, opacity: 1 }}
                 style={{
                     background: 'white',
-                    padding: '3rem',
-                    borderRadius: '3rem',
+                    padding: 'clamp(1.5rem, 5vw, 3rem)',
+                    borderRadius: 'min(3rem, 8vw)',
                     maxWidth: '600px',
                     width: '100%',
                     position: 'relative',
@@ -37,15 +37,15 @@ const AboutMeModal = ({ isOpen, onClose }) => {
             >
                 <button
                     onClick={onClose}
-                    style={{ position: 'absolute', top: '1.5rem', right: '1.5rem', background: '#f1f5f9', border: 'none', borderRadius: '50%', padding: '0.5rem', cursor: 'pointer' }}
+                    style={{ position: 'absolute', top: '1rem', right: '1rem', background: '#f1f5f9', border: 'none', borderRadius: '50%', padding: '0.4rem', cursor: 'pointer', display: 'flex' }}
                 >
-                    <X size={24} />
+                    <X size={20} />
                 </button>
 
                 <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>🪪</div>
-                    <h2 className="heading-font" style={{ fontSize: '2rem', color: 'var(--kid-blue)', marginBottom: '2rem' }}>Practice My Info</h2>
-                    <p style={{ color: 'var(--text-muted)', marginBottom: '2rem' }}>Practice knowing your important details! (We don't save this info)</p>
+                    <div style={{ fontSize: 'clamp(2.5rem, 10vw, 4rem)', marginBottom: '0.5rem' }}>🪪</div>
+                    <h2 className="heading-font" style={{ fontSize: 'clamp(1.5rem, 5vw, 2rem)', color: 'var(--kid-blue)', marginBottom: '1.5rem' }}>Practice My Info</h2>
+                    <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem', fontSize: 'clamp(0.9rem, 3vw, 1.1rem)' }}>Practice knowing your important details! (We don't save this info)</p>
 
                     <AnimatePresence mode="wait">
                         <motion.div

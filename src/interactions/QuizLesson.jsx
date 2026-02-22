@@ -12,12 +12,19 @@ const QuizLesson = ({ content, onFinish }) => {
     const questions = content.questions || [content];
     const currentQ = questions[qIdx];
 
+    const { playSound } = useSound();
+
     const handleAnswer = (idx) => {
         if (selected !== null) return;
         setSelected(idx);
         const correct = idx === currentQ.correct;
         setIsCorrect(correct);
-        if (correct) setScore(s => s + 1);
+        if (correct) {
+            setScore(s => s + 1);
+            playSound('correct');
+        } else {
+            playSound('wrong');
+        }
 
         setTimeout(() => {
             if (qIdx < questions.length - 1) {
@@ -27,7 +34,7 @@ const QuizLesson = ({ content, onFinish }) => {
             } else {
                 onFinish((correct ? score + 1 : score) === questions.length);
             }
-        }, 1500);
+        }, 1000);
     };
 
     const wrongVariants = {
@@ -36,7 +43,7 @@ const QuizLesson = ({ content, onFinish }) => {
 
     return (
         <div>
-            <h3 style={{ fontSize: '1.8rem', marginBottom: '2rem', textAlign: 'center' }}>
+            <h3 style={{ fontSize: 'clamp(1.2rem, 4vw, 1.8rem)', marginBottom: '2rem', textAlign: 'center' }}>
                 {currentQ.question}
             </h3>
 
@@ -48,9 +55,9 @@ const QuizLesson = ({ content, onFinish }) => {
 
             <div style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(min(250px, 100%), 1fr))',
                 gap: '1.5rem',
-                maxWidth: '600px',
+                maxWidth: '800px',
                 margin: '0 auto'
             }}>
                 {currentQ.options.map((option, idx) => (
@@ -62,6 +69,7 @@ const QuizLesson = ({ content, onFinish }) => {
                         <Button
                             color={selected === idx ? (isCorrect ? 'green' : 'red') : 'blue'}
                             onClick={() => handleAnswer(idx)}
+                            disabled={selected !== null}
                             style={{ width: '100%', fontSize: '1.5rem' }}
                         >
                             {option}

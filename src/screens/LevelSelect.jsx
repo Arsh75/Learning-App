@@ -2,18 +2,31 @@ import React from 'react';
 import Button from '../components/Button';
 import { ChevronLeft, Lock } from 'lucide-react';
 import { useProgress } from '../context/ProgressContext';
+import { useSound } from '../hooks/useSound';
 
 const LevelSelect = ({ subject, onSelect, onBack }) => {
+    const { playSound } = useSound();
     const { progress } = useProgress();
     const unlocked = progress.unlockedLevels[subject.id] || [1];
 
+    const handleSelect = (level) => {
+        playSound('click');
+        onSelect(level);
+    };
+
     return (
         <div>
-            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '3rem', gap: '1.5rem' }}>
-                <Button variant="outline" size="sm" onClick={onBack}>
-                    <ChevronLeft /> Back
+            <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                marginBottom: '2rem',
+                gap: '1rem',
+                flexWrap: 'wrap'
+            }}>
+                <Button variant="outline" size="sm" onClick={onBack} style={{ padding: '0.6rem 1rem' }}>
+                    <ChevronLeft size={20} /> Back
                 </Button>
-                <h2 style={{ fontSize: '2.5rem', color: 'var(--text-dark)' }}>
+                <h2 style={{ fontSize: 'clamp(1.5rem, 6vw, 2.5rem)', color: 'var(--text-dark)', margin: 0 }}>
                     {subject.emoji} {subject.name} Levels
                 </h2>
             </div>
@@ -21,7 +34,7 @@ const LevelSelect = ({ subject, onSelect, onBack }) => {
             <div style={{
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '1.5rem',
+                gap: '1rem',
                 maxWidth: '800px',
                 margin: '0 auto'
             }}>
@@ -32,11 +45,11 @@ const LevelSelect = ({ subject, onSelect, onBack }) => {
                     return (
                         <div
                             key={level.id}
-                            onClick={isUnlocked ? () => onSelect(level) : undefined}
+                            onClick={isUnlocked ? () => handleSelect(level) : undefined}
                             style={{
                                 background: 'white',
-                                padding: '2rem',
-                                borderRadius: '2rem',
+                                padding: 'clamp(1rem, 4vw, 2rem)',
+                                borderRadius: 'min(2rem, 5vw)',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'space-between',
@@ -44,27 +57,30 @@ const LevelSelect = ({ subject, onSelect, onBack }) => {
                                 boxShadow: isUnlocked ? 'var(--shadow-chunky)' : 'none',
                                 opacity: isUnlocked ? 1 : 0.6,
                                 border: `3px solid ${isUnlocked ? subject.color : '#e2e8f0'}`,
-                                transition: 'transform 0.2s'
+                                transition: 'transform 0.2s',
+                                flexWrap: 'wrap',
+                                gap: '1rem'
                             }}
                         >
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(1rem, 4vw, 2rem)' }}>
                                 <div style={{
-                                    width: '60px',
-                                    height: '60px',
+                                    width: 'clamp(40px, 12vw, 60px)',
+                                    height: 'clamp(40px, 12vw, 60px)',
                                     borderRadius: '50%',
                                     background: isUnlocked ? subject.color : '#cbd5e1',
                                     color: 'white',
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
-                                    fontSize: '1.5rem',
-                                    fontWeight: '800'
+                                    fontSize: 'clamp(1rem, 4vw, 1.5rem)',
+                                    fontWeight: '800',
+                                    flexShrink: 0
                                 }}>
-                                    {isUnlocked ? level.id : <Lock size={24} />}
+                                    {isUnlocked ? level.id : <Lock size={20} />}
                                 </div>
-                                <div>
-                                    <h3 style={{ fontSize: '1.5rem', marginBottom: '0.3rem' }}>{level.name}</h3>
-                                    <p style={{ color: 'var(--text-muted)' }}>{level.lessons.length} Lessons • {isCompleted ? '✅ Completed' : '📚 Ready to play'}</p>
+                                <div style={{ textAlign: 'left' }}>
+                                    <h3 style={{ fontSize: 'clamp(1.1rem, 4vw, 1.5rem)', marginBottom: '0.2rem' }}>{level.name}</h3>
+                                    <p style={{ color: 'var(--text-muted)', fontSize: 'clamp(0.8rem, 3vw, 1rem)' }}>{level.lessons.length} Lessons • {isCompleted ? '✅ Completed' : '📚 Ready'}</p>
                                 </div>
                             </div>
 

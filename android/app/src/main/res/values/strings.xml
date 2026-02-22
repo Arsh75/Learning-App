@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">noorilm</string>
+    <string name="title_activity_main">noorilm</string>
+    <string name="package_name">com.noorilm.app</string>
+    <string name="custom_url_scheme">com.noorilm.app</string>
+</resources>
